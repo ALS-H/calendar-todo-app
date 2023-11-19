@@ -33,13 +33,13 @@ const Calendar = () => {
   };
 
   useEffect(() => {
-    const storedTodos = localStorage.getItem('todos');
+    const storedTodos = localStorage.getItem('todo');
 
     if (storedTodos) {
       setTodos(JSON.parse(storedTodos));
       setLoading(false);
     } else {
-      fetch('http://localhost:8000/api/todos')
+      fetch('http://localhost:8000/api/todo')
         .then((res) => res.json())
         .then((data) => {
           const sortedData = {};
@@ -52,7 +52,7 @@ const Calendar = () => {
 
           setTodos(sortedData);
           setLoading(false);
-          localStorage.setItem('todos', JSON.stringify(sortedData));
+          localStorage.setItem('todo', JSON.stringify(sortedData));
         })
         .catch((error) => {
           console.error('Error fetching todos:', error);
@@ -74,7 +74,7 @@ const Calendar = () => {
       updatedTodos[selectedDate][id].isDone = !updatedTodos[selectedDate][id].isDone;
   
       setTodos(updatedTodos);
-      localStorage.setItem('todos', JSON.stringify(updatedTodos));
+      localStorage.setItem('todo', JSON.stringify(updatedTodos));
   
       // Use refetchEvents instead of rerenderEvents
       calendarRef.current.getApi().refetchEvents();
@@ -125,9 +125,9 @@ const Calendar = () => {
 
       setTodos(updatedTodos);
 
-      localStorage.setItem('todos', JSON.stringify(updatedTodos));
+      localStorage.setItem('todo', JSON.stringify(updatedTodos));
 
-      fetch(`http://localhost:8000/api/todos/${id}`, {
+      fetch(`http://localhost:8000/api/todo/${id}`, {
         method: 'DELETE',
       })
         .then((res) => res.json())
@@ -175,7 +175,7 @@ const Calendar = () => {
       category: selectedCategory,
     };
   
-    fetch('http://localhost:8000/api/todos', {
+    fetch('http://localhost:8000/api/todo', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -200,7 +200,7 @@ const Calendar = () => {
           isDone: false, // Initialize isDone property
         };
   
-        localStorage.setItem('todos', JSON.stringify(updatedTodos));
+        localStorage.setItem('todo', JSON.stringify(updatedTodos));
   
         setTodos(updatedTodos);
         setNewTodo('');
